@@ -1,20 +1,23 @@
 import React from 'react'
 
-const Recipe = ({title,calories,img,ingredients})=>{
+const Recipe = ({title,calories,ingredients,img})=>{
+
+
+   
     return(
-        <div>
-            <h1>{title}</h1>
-            <p>{calories}</p>
-            <img src={img} alt = '' ></img>
+        <div class = "card-body">
+        
+            <h1 class="card-title">{title}</h1>
+            <p class ="card-text">Calories: {calories}</p>
+            <img class="rounded float-left" src={img} alt = '' ></img>
             <ol>
                 {ingredients.map((ingredient)=>(
                     <ul>{ingredient.text}</ul>
                 ))}
-                <button>Click me</button>
-            </ol>
-
-          
+                
+            </ol>  
         </div>
+        
     );
 }
 export default Recipe
