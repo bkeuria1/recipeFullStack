@@ -31,11 +31,13 @@ router.post('/',  async (req,res)=>{
     try{
        const savedRecipe = await newRecipe.save()
        console.log("THE NEW SAVED RECIPE ID IS: "+ savedRecipe.id)
+    
        res.json()
         
     }catch(err){
         console.log(err)
-        res.json()
+        res.statusCode = 400
+        res.send()
     }
 
    
@@ -54,15 +56,16 @@ router.get("/", async (req,res)=>{
         
         let recipes 
         console.log(typeof req.query)
-        if(typeof req.query === 'undefined' ){
-            recipes = await Recipe.find()
-        }else{  
-        recipes = await Recipe.find(searchOptions).limit(10)
-        }
+       
+        recipes = await Recipe.find(searchOptions)
+        
 
         res.json(recipes)
     }catch(err){
         console.log(err)
+        res.statusCode = 400
+        res.send()
+        
 
     }
 
@@ -78,6 +81,8 @@ router.delete('/:id', async(req,res)=>{
         res.send()
     }catch(err){
         console.log(err)
+        res.statusCode = 400
+        res.send()
     }
 })
 
