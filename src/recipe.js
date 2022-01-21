@@ -1,10 +1,12 @@
 import React from 'react'
+import FlashMessage from 'react-flash-message'
 
 const Recipe = ({title,calories,ingredients,img})=>{
 
 
    
     return(
+        
         <div class = "card-body">
         
             <h1 class="card-title">{title}</h1>

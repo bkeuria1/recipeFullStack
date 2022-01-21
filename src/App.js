@@ -12,6 +12,7 @@ const App = ()=>{
   const [query,setQuery] = useState('')
   const [label,setLabel] = useState('All Recipes')
   const [saved, setSaved] = useState([])
+
   
 
   // useEffect (()=> {
@@ -36,7 +37,7 @@ const App = ()=>{
         if(query !== ""){
       response = await fetch(`https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=a22af218&app_key=40cbdd2bd7236baa3c94dd1ba0cdb35f`);
       const data = await response.json();
-      
+      console.log(data)
       setRecipes(data.hits)
         }
       }catch(err){
@@ -143,6 +144,7 @@ const App = ()=>{
           calories = { r.recipe.calories} 
           img = { r.recipe.image} 
           ingredients = { r.recipe.ingredients}
+          url = {r.recipe.url}
           />
           
       ))}

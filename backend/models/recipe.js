@@ -16,9 +16,15 @@ const recipeSchema = new mongoose.Schema({
        
     },
     img:{
+        type:String
+    
+    },
+
+    url:{
         type:String,
         unique:true
     }
 })
 
 module.exports = mongoose.model('Recipe',recipeSchema);
+

@@ -1,34 +1,45 @@
-import {React,useState} from 'react'
+import {React,useState,useEffect} from 'react'
 import axios from 'axios';
 import Recipe from './recipe';
 import FlashMessage from 'react-flash-message'
-const AllRecipe = ({title,calories,ingredients,img,setRecipe})=>{
+const AllRecipe = ({title,calories,ingredients,img,url})=>{
     const [show,setShow] = useState(true)
     const [flash,setFlash] = useState(false)
+    const [type, setType] = useState("alert alert-primary" )
     const [message,setMessage] = useState("")
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+           setFlash(false);
+         }, 3000);
+     
+        return () => clearTimeout(timeout);
+       },[flash]);
     
 
-    const save = ()=>{
+    async function save(){
         const newRecipe = {
             name: title,
             calories:calories,
             ingredients: ingredients,
-             img: img
+            img: img,
+            url: url
         }
-        
-
-        
         try{
-        axios.post("http://localhost:3001/recipes/",newRecipe)
-        .then((()=>{setShow(false)
-           setMessage( `${newRecipe.name} has been succesfully saved`)
-           console.log("This is the message " + message)
-        }));
-        
+            await axios.post("http://localhost:3001/recipes/",newRecipe)
+      
+            setShow(false)
+       
+            //setShow(false)
+            console.log(show)
+            setMessage( `${newRecipe.name} has been succesfully saved`)
+            setType("alert alert-success")
+            console.log("This is the message " + message)
         
         }catch(err){
             console.log(err)
             setMessage("There was an error saving this recipe")
+            setType("alert alert-danger")
         }
         setFlash(true)
         
@@ -38,7 +49,7 @@ const AllRecipe = ({title,calories,ingredients,img,setRecipe})=>{
         <div>
             {show &&
                 <div class = "card m-5">
-                <h1>{message}</h1>
+                
            <Recipe
                title = {title}
                calories = {calories}
@@ -50,17 +61,13 @@ const AllRecipe = ({title,calories,ingredients,img,setRecipe})=>{
            
             </div>
             }
-            {setFlash &&
-            <div class="alert alert-primary" role="alert" >
-                Message
-            </div>
+            {flash &&  (
+                <div class={type} role="alert" >
+                    {message}
+                </div>
 
-        }
+            )}
 
-        
-
-
-          
         </div>
 
 

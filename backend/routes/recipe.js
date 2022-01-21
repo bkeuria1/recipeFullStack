@@ -16,14 +16,16 @@ router.post('/',  async (req,res)=>{
     const calories = req.body.calories;
     const ingredients = req.body.ingredients;
     const img = req.body.img
+    const url = req.body.url
 
 
     const newRecipe = new Recipe({
         
-       name,
-        calories,
-        ingredients,
-        img
+        name : name,
+        calories: calories,
+        ingredients: ingredients,
+        img:img,
+        url: url
     
     
     })
@@ -37,7 +39,7 @@ router.post('/',  async (req,res)=>{
     }catch(err){
         console.log(err)
         res.statusCode = 400
-        res.send()
+        res.json("ERROR:" + err)
     }
 
    
