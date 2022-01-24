@@ -1,6 +1,6 @@
 import React from 'react'
 import Recipe from './recipe';
-import getRecipes from './App';
+import getRecipes from '../App';
 import axios from 'axios';
 
 const SavedRecipe = ({id,title,calories,ingredients,img,deleteRecipe})=>{

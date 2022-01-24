@@ -1,9 +1,10 @@
 import './App.css';
 import React,{useEffect,useState} from "react"
-import AllRecipe from './allRecipe';
-import SavedRecipe from './savedRecipe';
-import useDeepCompareEffect from './useDeepCompareEffect';
+import AllRecipe from './components/allRecipe';
+import SavedRecipe from './components/savedRecipe';
+import useDeepCompareEffect from './hooks/useDeepCompareEffect';
 import axios from 'axios';
+import { Route,Link,Redirect } from "react-router-dom";
 const App = ()=>{
 
 
@@ -96,68 +97,73 @@ const App = ()=>{
         <select name = "result" onChange = {updateLabel}>
           <option selected label  = "All Recipes"  value = "All Recipes"  />
           <option label = "Saved Recipes" value = "Saved Recipes"/>
-
           
+
+
         </select>
+      
         <button type = "submit" className = 'btn btn-primary'>Search</button>
       </form>
-     
 
-     
+      <a href='http://localhost:3001/auth/google' class = "btn btn-primary">Sign in</a>
 
-{ label === "Saved Recipes" &&
-    <div class = "">
-      { saved.length > 0  ?(
+      <a href='http://localhost:3001/logout' class = "btn btn-danger">Logout</a>
 
-       <div class = "">
-      {saved.map(r=>(
-      
-          <SavedRecipe 
-          deleteRecipe = {deleteRecipe}
-          saved = {saved}
-          setSaved = {setSaved}
-          id =  {r._id}
-          title = {r.name} 
-          calories = { r.calories} 
-          img = { r.img} 
-          ingredients = { r.ingredients}
-          />
+           
+
+    { label === "Saved Recipes" &&
+        <div class = "">
+          { saved.length > 0  ?(
+
+          <div class = "">
+          {saved.map(r=>(
           
-      ))}
-      </div>
-      ):(<div>
-         <h1> No Recipes Found</h1>
-      </div>)}
-      </div>
-  }
+              <SavedRecipe 
+              deleteRecipe = {deleteRecipe}
+              saved = {saved}
+              setSaved = {setSaved}
+              id =  {r._id}
+              title = {r.name} 
+              calories = { r.calories} 
+              img = { r.img} 
+              ingredients = { r.ingredients}
+              />
+              
+          ))}
+          </div>
+          ):(<div>
+            <h1> No Recipes Found</h1>
+          </div>)}
+          </div>
+      }
 
-{ label === "All Recipes" &&
-    <div>
-      { recipes.length>0 ?(
+    { label === "All Recipes" &&
+        <div>
+          { recipes.length>0 ?(
 
-       <div class = "card">
-      {recipes.map(r=>(
-          <AllRecipe 
-          recipes = {recipes}
-          setRecipes = {setRecipes}
-          title = {r.recipe.label} 
-          calories = { r.recipe.calories} 
-          img = { r.recipe.image} 
-          ingredients = { r.recipe.ingredients}
-          url = {r.recipe.url}
-          />
-          
-      ))}
-      </div>
-      ):(<div>
-        <h1>No Recipes Found</h1>
-      </div>)}
-      </div>
-  }
-    </div>
-  )
+          <div class = "card">
+          {recipes.map(r=>(
+              <AllRecipe 
+              recipes = {recipes}
+              setRecipes = {setRecipes}
+              title = {r.recipe.label} 
+              calories = { r.recipe.calories} 
+              img = { r.recipe.image} 
+              ingredients = { r.recipe.ingredients}
+              url = {r.recipe.url}
+              />
+              
+          ))}
+          </div>
+          ):(<div>
+            <h1>No Recipes Found</h1>
+          </div>)}
+          </div>
+      }
+        </div>
+      )
 
 
-}
+    }
 
 export default App;

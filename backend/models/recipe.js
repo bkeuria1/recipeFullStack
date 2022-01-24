@@ -19,7 +19,6 @@ const recipeSchema = new mongoose.Schema({
         type:String
     
     },
-
     url:{
         type:String,
         unique:true

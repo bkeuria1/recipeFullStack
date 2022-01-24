@@ -3,9 +3,12 @@ const app = express()
 const cors = require('cors');
 require('dotenv').config()
 const bodyParser = require('body-parser')
+const passport = require('passport');
+const cookieSession = require('cookie-session');
 // const methodOverride = require('method-override')
 
 const recipeRouter = require('./routes/recipe')
+const indexRouter = require('./routes/index')
 
 
 
@@ -21,8 +24,19 @@ app.use(function(req, res, next) {
     next();
   });
 
+  app.use(cookieSession({
+    name: 'session-name',
+    keys: ['key1', 'key2']
+  }))
+  
+  //Configure Passport
+  app.use(passport.initialize());
+  app.use(passport.session());
+
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/', indexRouter)
 app.use('/recipes', recipeRouter)
+
 app.use(cors())
 app.listen(process.env.PORT || 3001)
