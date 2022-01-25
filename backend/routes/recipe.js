@@ -2,6 +2,7 @@ const { type } = require('@testing-library/user-event/dist/type');
 const express = require('express')
 const router = express.Router()
 const Recipe = require('../models/recipe')
+const { ensureAuth } = require('../middleware/auth')
 
 router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
@@ -9,7 +10,7 @@ router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Methods", "GET, POST, DELETE");
     next();
   });
-router.post('/',  async (req,res)=>{
+router.post('/', ensureAuth, async (req,res)=>{
     
     const name = req.body.name
     console.log("The request is "+req.body)
@@ -17,6 +18,7 @@ router.post('/',  async (req,res)=>{
     const ingredients = req.body.ingredients;
     const img = req.body.img
     const url = req.body.url
+    //const user = req.user.id
 
 
     const newRecipe = new Recipe({
@@ -25,7 +27,8 @@ router.post('/',  async (req,res)=>{
         calories: calories,
         ingredients: ingredients,
         img:img,
-        url: url
+        url: url,
+        //user: user
     
     
     })
@@ -34,7 +37,8 @@ router.post('/',  async (req,res)=>{
        const savedRecipe = await newRecipe.save()
        console.log("THE NEW SAVED RECIPE ID IS: "+ savedRecipe.id)
     
-       res.json()
+       console.log(res.json())
+       
         
     }catch(err){
         console.log(err)

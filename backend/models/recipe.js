@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const Recipe = require('./recipe')
 
 const recipeSchema = new mongoose.Schema({
     name:{
@@ -22,6 +21,12 @@ const recipeSchema = new mongoose.Schema({
     url:{
         type:String,
         unique:true
+    },
+
+    user:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users'
+        //required : true
     }
 })
 

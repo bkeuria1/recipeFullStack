@@ -17,26 +17,33 @@ router.get('/failed', (req, res) => {
 
 // Middleware - Check user is Logged in
 const checkUserLoggedIn = (req, res, next) => {
-  req.user ? next(): res.sendStatus(401);
+  req.isAuthenticated() ? next(): res.sendStatus(401);
 }
 
-// //Protected Route.
-// router.get('/profile', checkUserLoggedIn, (req, res) => {
-//   res.send(`<h1>${req.user.displayName}'s Profile Page</h1>`)
-// });
+//Protected Route.
+router.get('/profile', checkUserLoggedIn, (req, res) => {
+  res.send(`<h1>${req.user.displayName}'s Profile Page</h1>`)
+});
 
 // Auth Routes
-router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }), 
+  function(req,res){
+    console.log(res.user.displayName)
+  }
 
-// router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/failed' }),
-//   function(req, res) {
-//    // res.redirect('/profile');
-//   }
-// );
+);
+
+router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/failed' }),
+  function(req, res) {
+   console.log(req.user.displayName)
+  }
+);
 
 //Logout
 router.get('/logout', (req, res) => {
+    
     req.session = null;
+   
     req.logout();
     res.redirect('http://localhost:3000')
     
