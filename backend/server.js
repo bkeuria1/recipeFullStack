@@ -3,14 +3,14 @@ const app = express()
 const cors = require('cors');
 require('dotenv').config()
 const bodyParser = require('body-parser')
-const passport = require('passport');
-const cookieSession = require('cookie-session');
-// const methodOverride = require('method-override')
+// const passport = require('passport');
+// const session = require('express-session');
+// const MongoStore = require('connect-mongo')
+// require('./passport.js')
+
 
 const recipeRouter = require('./routes/recipe')
 const indexRouter = require('./routes/index')
-
-
 
 const mongoose = require('mongoose')
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true })
@@ -18,25 +18,28 @@ const db = mongoose.connection
 db.on('error', error => console.error(error))
 db.once('open', () => console.log('Connected to Mongoose'))
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
+app.use(cors())
+  // app.use(session({
+  //   secret: "Rusty is the worst and ugliest dog in the wolrd",
+  //   resave: true,
+  //   saveUninitialized: true,
 
-  app.use(cookieSession({
-    name: 'session-name',
-    keys: ['key1', 'key2']
-  }))
+  //   // cookie: {domain: 'localhost:3000'}
+
+  //   store: MongoStore.create({ 
+  //     mongoUrl: process.env.DATABASE_URL,
+  //     collection: 'sessions'
+  //    })
+  // }));
   
-  //Configure Passport
-  app.use(passport.initialize());
-  app.use(passport.session());
+//   //Configure Passport
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/', indexRouter)
+// app.use('/', indexRouter)
 app.use('/recipes', recipeRouter)
 
-app.use(cors())
+
 app.listen(process.env.PORT || 3001)

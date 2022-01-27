@@ -26,6 +26,7 @@ const AllRecipe = ({title,calories,ingredients,img,url})=>{
             url: url
         }
         try{
+            console.log("Saved was clicked")
             await axios.post("http://localhost:3001/recipes/",newRecipe)
       
             setShow(false)
@@ -38,7 +39,7 @@ const AllRecipe = ({title,calories,ingredients,img,url})=>{
         
         }catch(err){
             console.log(err)
-            setMessage("There was an error saving this recipe")
+            setMessage(err)
             setType("alert alert-danger")
         }
         setFlash(true)

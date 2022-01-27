@@ -1,16 +1,9 @@
-const { type } = require('@testing-library/user-event/dist/type');
 const express = require('express')
 const router = express.Router()
 const Recipe = require('../models/recipe')
-const { ensureAuth } = require('../middleware/auth')
+// const { ensureAuth } = require('../middleware/auth')
 
-router.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "GET, POST, DELETE");
-    next();
-  });
-router.post('/', ensureAuth, async (req,res)=>{
+router.post('/', async (req,res)=>{
     
     const name = req.body.name
     console.log("The request is "+req.body)
@@ -27,7 +20,7 @@ router.post('/', ensureAuth, async (req,res)=>{
         calories: calories,
         ingredients: ingredients,
         img:img,
-        url: url,
+        url: url
         //user: user
     
     
@@ -43,7 +36,7 @@ router.post('/', ensureAuth, async (req,res)=>{
     }catch(err){
         console.log(err)
         res.statusCode = 400
-        res.json("ERROR:" + err)
+        res.send("ERROR:" + err)
     }
 
    

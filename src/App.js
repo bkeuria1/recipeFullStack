@@ -4,7 +4,6 @@ import AllRecipe from './components/allRecipe';
 import SavedRecipe from './components/savedRecipe';
 import useDeepCompareEffect from './hooks/useDeepCompareEffect';
 import axios from 'axios';
-import { Route,Link,Redirect } from "react-router-dom";
 const App = ()=>{
 
 
