@@ -1,7 +1,6 @@
 import {React,useState,useEffect} from 'react'
 import axios from 'axios';
 import Recipe from './recipe';
-import FlashMessage from 'react-flash-message'
 const AllRecipe = ({title,calories,ingredients,img,url})=>{
     const [show,setShow] = useState(true)
     const [flash,setFlash] = useState(false)
@@ -39,7 +38,8 @@ const AllRecipe = ({title,calories,ingredients,img,url})=>{
         
         }catch(err){
             console.log(err)
-            setMessage(err)
+            setMessage("There was an error saving this report")
+
             setType("alert alert-danger")
         }
         setFlash(true)
