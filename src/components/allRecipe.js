@@ -26,7 +26,7 @@ const AllRecipe = ({title,calories,ingredients,img,url})=>{
         }
         try{
             console.log("Saved was clicked")
-            await axios.post("http://localhost:3001/recipes/",newRecipe)
+            await axios.post("http://localhost:3001/recipes/",{withCreditals:true}, newRecipe)
       
             setShow(false)
        

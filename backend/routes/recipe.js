@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const Recipe = require('../models/recipe')
-const { ensureAuth } = require('../middleware/auth')
+const {ensureAuth}  = require('../middleware/auth')
 
 router.post('/',ensureAuth, async (req,res)=>{
-    
+
     const name = req.body.name
     console.log("The request is "+req.body)
     const calories = req.body.calories;
@@ -15,14 +15,13 @@ router.post('/',ensureAuth, async (req,res)=>{
 
 
     const newRecipe = new Recipe({
-        
         name : name,
         calories: calories,
         ingredients: ingredients,
         img:img,
         url: url
         //user: user
-    
+
     
     })
     console.log(newRecipe)
