@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors');
 const logger = require('morgan');
-
+const cookie = require('cookie-parser')
 const bodyParser = require('body-parser')
 const session = require('express-session');
 const MongoStore = require('connect-mongo')
@@ -22,12 +22,13 @@ mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true })
 const db = mongoose.connection
 db.on('error', error => console.error(error))
 db.once('open', () => console.log('Connected to Mongoose'))
-app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookie())
 app.use(session({
-  secret: "This is the secret Key",
+  secret: "secret",
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   store: MongoStore.create({ 
     mongooseConenction: mongoose.connection,
     mongoUrl: process.env.DATABASE_URL,
@@ -35,12 +36,12 @@ app.use(session({
    })
 }));
 
+
+
 //Configure Passport
 app.use(logger('tiny'))
 app.use(passport.initialize());
 app.use(passport.session());
-
-
 
 
 

@@ -24,13 +24,13 @@ const AllRecipe = ({title,calories,ingredients,img,url})=>{
             img: img,
             url: url
         }
+
         try{
             console.log("Saved was clicked")
-            await axios.post("http://localhost:3001/recipes/",{withCreditals:true}, newRecipe)
-      
+            const response = await axios.post("http://localhost:3001/recipes/",newRecipe, {withCredentials:true})
+            console.log("HERE IS THE RESPONSE: "+response)
+           
             setShow(false)
-       
-            //setShow(false)
             console.log(show)
             setMessage( `${newRecipe.name} has been succesfully saved`)
             setType("alert alert-success")
@@ -42,6 +42,7 @@ const AllRecipe = ({title,calories,ingredients,img,url})=>{
 
             setType("alert alert-danger")
         }
+    
         setFlash(true)
         
     }

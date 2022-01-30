@@ -7,47 +7,59 @@ require('../passport.js')
 
 const {ensureAuth} = require('../middleware/auth')
 
-//Unprotected Routes
-// router.get('/', (req, res) => {
-//   res.send('<h1>Home</h1>')
-// });
+
 
 router.get('/failed', (req, res) => {
   res.send('<h1>Log in Failed :(</h1>')
 });
 
-// // Middleware - Check user is Logged in
-// const checkUserLoggedIn = (req, res, next) => {
-//   req.isAuthenticated() ? next(): res.sendStatus(401);
-// }
 
-// //Protected Route.
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] })
+)
+
+router.get('/auth/google/callback', passport.authenticate('google'
+, { 
+  failureRedirect: '/failed' }
+),(req,res)=>{
+ 
+    console.log(req.user)
+    console.log(req.session)
+    res.redirect("http://localhost:3000");
+  
+   
+})
+  
+// const checkUserLoggedIn = (req, res, next) => {
+//   req.user ? next(): res.sendStatus(401);
+// }
+// // );
 // router.get('/profile', checkUserLoggedIn, (req, res) => {
 //   res.send(`<h1>${req.user.displayName}'s Profile Page</h1>`)
 // });
 
 // Auth Routes
 
-router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }),
-ensureAuth
+
+// router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/failed' }),
+//   function(req, res) {
+//     res.redirect('/profile');
+//   }
+// );
 
 
-)
-
-router.get('/auth/google/callback', passport.authenticate('google'
-, { 
-  successRedirect: "http://localhost:3000",
-  failureRedirect: '/failed' }
-),
-  ensureAuth
- 
-);
 
 //Logout
-router.get('/logout', (req, res) => {
-
+router.get('/logout', ensureAuth, (req, res) => {
+  try{
+    console.log(req.isAuthenticated())
+    console.log(req.session)
+    console.log(req.user)
     req.logout();
     res.redirect('http://localhost:3000')
+  }
+  catch(err){
+    res.redirect('http://localhost:3000')
+  }
     
 })
 

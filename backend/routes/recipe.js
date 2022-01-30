@@ -1,12 +1,20 @@
 const express = require('express')
 const router = express.Router()
 const Recipe = require('../models/recipe')
-const {ensureAuth}  = require('../middleware/auth')
+const passport = require('passport')
 
-router.post('/',ensureAuth, async (req,res)=>{
+const {ensureAuth}  = require('../middleware/auth')
+require('../passport')(passport)
+
+router.post('/', ensureAuth, async (req,res)=>{
+    //console.log(passport.session)
+   
+    
+    console.log("The current user is: "+ req.user)
+
 
     const name = req.body.name
-    console.log("The request is "+req.body)
+    
     const calories = req.body.calories;
     const ingredients = req.body.ingredients;
     const img = req.body.img
@@ -19,8 +27,8 @@ router.post('/',ensureAuth, async (req,res)=>{
         calories: calories,
         ingredients: ingredients,
         img:img,
-        url: url
-        //user: user
+        url: url,
+        user: req.user
 
     
     })
@@ -29,20 +37,24 @@ router.post('/',ensureAuth, async (req,res)=>{
        const savedRecipe = await newRecipe.save()
        console.log("THE NEW SAVED RECIPE ID IS: "+ savedRecipe.id)
     
-       console.log(res.json())
+       return res.json()
+       
        
         
     }catch(err){
+        console.log("WE GOT AN ERROR")
         console.log(err)
         res.statusCode = 400
         res.send("ERROR:" + err)
     }
 
+  
+
    
 
 })
 
-router.get("/", async (req,res)=>{
+router.get("/",ensureAuth,async (req,res)=>{
       
     let recipes
     let searchOptions = {}
@@ -71,7 +83,7 @@ router.get("/", async (req,res)=>{
 
 
 
-router.delete('/:id', async(req,res)=>{
+router.delete('/:id', ensureAuth, async(req,res)=>{
     try{
         console.log(req.params.id)
         

@@ -49,7 +49,9 @@ const App = ()=>{
       console.log("other api")
       console.log(query)
    
-     const res =  await fetch(`http://localhost:3001/recipes?name=${query}`)
+     const res =  await fetch(`http://localhost:3001/recipes?name=${query}`, {
+      credentials: 'include'
+    })
      const data = await res.json()
      setSaved(data)
       
