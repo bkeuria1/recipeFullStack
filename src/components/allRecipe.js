@@ -24,7 +24,7 @@ const AllRecipe = ({title,calories,ingredients,img,url})=>{
             img: img,
             url: url
         }
-
+        let res
         try{
             console.log("Saved was clicked")
             const response = await axios.post("http://localhost:3001/recipes/",newRecipe, {withCredentials:true})
@@ -37,8 +37,15 @@ const AllRecipe = ({title,calories,ingredients,img,url})=>{
             console.log("This is the message " + message)
         
         }catch(err){
-            console.log(err)
-            setMessage("There was an error saving this report")
+            const o = JSON.stringify(err)
+
+            let status = JSON.parse(o).status
+            if(status === 401){
+                setMessage("You need to be signed in")
+            }else if(status === 400){
+                setMessage("You alreay saved this recipe")
+            }
+            
 
             setType("alert alert-danger")
         }
