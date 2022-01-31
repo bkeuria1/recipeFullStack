@@ -21,7 +21,6 @@ router.post('/', ensureAuth, async (req,res)=>{
     const url = req.body.url
     //const user = req.user.id
 
-
     const newRecipe = new Recipe({
         name : name,
         calories: calories,
@@ -61,14 +60,15 @@ router.get("/",ensureAuth,async (req,res)=>{
 
 
     searchOptions.name = new RegExp(req.query.name, 'i')
+    searchOptions.googleId = req.user.googleId
     console.log(JSON.stringify(req.query) + "is the req.query")
+    console.log(JSON.stringify(searchOptions))
     try{
         
         let recipes 
         console.log(typeof req.query)
        
-        recipes = await Recipe.find(searchOptions)
-        
+        recipes = await Recipe.find({name:  new RegExp(req.query.name, 'i'), user: req.user})
 
         res.json(recipes)
     }catch(err){

@@ -15,11 +15,6 @@ const App = ()=>{
 
   
 
-  // useEffect (()=> {
-    
-  //   console.log("query is "+query)
-  //     getRecipes()
-  // },[query,label,...saved]);
 
   useDeepCompareEffect(()=>{
     console.log("Saved could be deleted")
@@ -72,7 +67,7 @@ const App = ()=>{
 
   async function deleteRecipe(id){
     try{
-      axios.delete(`http://localhost:3001/recipes/${id}`)
+      axios.delete(`http://localhost:3001/recipes/${id}`, {withCredentials:true})
       
       .then(setSaved(...saved.filter( s => s.id !== id)))
    
