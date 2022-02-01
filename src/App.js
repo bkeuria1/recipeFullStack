@@ -12,6 +12,12 @@ const App = ()=>{
   const [query,setQuery] = useState('')
   const [label,setLabel] = useState('All Recipes')
   const [saved, setSaved] = useState([])
+  const [isLoggedIn, setLoggedIn] = useState(false)
+  const [name, setName] = useState('')
+
+  useEffect (()=>{
+    checkLogin()
+  }, [])
 
   
 
@@ -28,18 +34,20 @@ const App = ()=>{
     
     let response
     if(label === "All Recipes"){
+      console.log(sessionStorage)
       try{
         if(query !== ""){
-      response = await fetch(`https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=a22af218&app_key=40cbdd2bd7236baa3c94dd1ba0cdb35f`);
-      const data = await response.json();
-      console.log(data)
-      setRecipes(data.hits)
+          response = await fetch(`https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=a22af218&app_key=40cbdd2bd7236baa3c94dd1ba0cdb35f`);
+          const data = await response.json();
+          console.log(data)
+          setRecipes(data.hits)
         }
       }catch(err){
         console.log(err)
       }
      
     }else{
+     
       //need to use seperate
       console.log("other api")
       console.log(query)
@@ -54,6 +62,21 @@ const App = ()=>{
     }
  
   };
+
+  const checkLogin = async () =>{
+    const res = await axios.get( 'http://localhost:3001/loggedIn', {withCredentials:true})
+    console.log( "Here is the data" + res.data.name)
+
+    if(res.data.result ){
+      
+      setLoggedIn(true)
+      setName(res.data.name)
+
+    }else{
+      setLoggedIn(false)
+    }
+   
+  }
 
   const updateSearch = (e)=>{
     setSearch(e.target.value)
@@ -98,17 +121,32 @@ const App = ()=>{
 
         </select>
       
-        <button type = "submit" className = 'btn btn-primary'>Search</button>
+        <button type = "submit" className = 'btn btn-primary' onClick={checkLogin}>Search</button>
       </form>
 
-      <a href='http://localhost:3001/auth/google' class = "btn btn-primary">Sign in</a>
+      <div class = "sign-in">
+      { isLoggedIn ?(
+        <div>
+          <h1>Welcome {name}!</h1>
+          <a href='http://localhost:3001/logout' class = "btn btn-danger right" onClick={checkLogin}>Logout</a>
+         
+        </div>
+      ):(
+        <div>
+            <a href='http://localhost:3001/auth/google' class = "btn btn-primary">Sign in</a> 
+        </div>
+      )
 
-      <a href='http://localhost:3001/logout' class = "btn btn-danger">Logout</a>
+      }
+      </div>
 
+      
+      
+      
            
-
+  
     { label === "Saved Recipes" &&
-        <div class = "">
+        <div class = "inline">
           { saved.length > 0  ?(
 
           <div class = "">
@@ -134,7 +172,7 @@ const App = ()=>{
       }
 
     { label === "All Recipes" &&
-        <div>
+        <div class = "">
           { recipes.length>0 ?(
 
           <div class = "card">
@@ -156,10 +194,9 @@ const App = ()=>{
           </div>)}
           </div>
       }
-        </div>
-      )
-
-
-    }
+        </div> //end main div
+      )  //end return
+    }//end class
+  
 
 export default App;

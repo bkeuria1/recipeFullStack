@@ -1,17 +1,19 @@
 
 const express = require('express');
 const passport = require('passport');
-const cookieSession = require('cookie-session');
 const router = express.Router()
 require('../passport.js')
 
 const {ensureAuth} = require('../middleware/auth')
 
 
-
-router.get('/failed', (req, res) => {
+router.get('/failed', ensureAuth,(req, res) => {
   res.send('<h1>Log in Failed :(</h1>')
 });
+
+router.get('/loggedIn', (req,res)=>{
+res.send({result: req.isAuthenticated(), name: req.user.firstName})
+})
 
 
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] })
