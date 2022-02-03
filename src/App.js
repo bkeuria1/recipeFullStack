@@ -113,22 +113,27 @@ const App = ()=>{
       <form onSubmit = {getSearch} className='input-group'>
 
         <input type = "text" class= 'search-bar' onChange={updateSearch} value = {search}/>
-        <select name = "result" onChange = {updateLabel}>
-          <option selected label  = "All Recipes"  value = "All Recipes"  />
-          <option label = "Saved Recipes" value = "Saved Recipes"/>
-          
+
+        
+          <select name = "result" onChange = {updateLabel}>
+            <option selected label  = "All Recipes"  value = "All Recipes"  />
+            { isLoggedIn &&
+              <option label = "Saved Recipes" value = "Saved Recipes"/>
+            }
+            
 
 
-        </select>
+          </select>
+        
       
         <button type = "submit" className = 'btn btn-primary' onClick={checkLogin}>Search</button>
       </form>
 
-      <div class = "sign-in">
+      <div class = "">
       { isLoggedIn ?(
         <div>
           <h1>Welcome {name}!</h1>
-          <a href='http://localhost:3001/logout' class = "btn btn-danger right" onClick={checkLogin}>Logout</a>
+          <a href='http://localhost:3001/logout' class = "btn btn-danger" onClick={checkLogin}>Logout</a>
          
         </div>
       ):(
@@ -146,7 +151,7 @@ const App = ()=>{
            
   
     { label === "Saved Recipes" &&
-        <div class = "inline">
+        <div class = "">
           { saved.length > 0  ?(
 
           <div class = "">
