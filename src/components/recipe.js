@@ -4,13 +4,6 @@ import Caution from './caution.js'
 
 const Recipe = ({title,calories,ingredients,img,cautions})=>{
 
-    const [showCautions,setCaution] = useState(false)
-    const displayCaution = ()=>{
-            console.log("hovered over")
-    }
-
-
-   
     return(
         
         <div class = "card-body">

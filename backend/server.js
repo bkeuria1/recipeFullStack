@@ -3,7 +3,6 @@ const express = require('express')
 const app = express()
 const cors = require('cors');
 const logger = require('morgan');
-const cookie = require('cookie-parser')
 const bodyParser = require('body-parser')
 const session = require('express-session');
 const MongoStore = require('connect-mongo')
@@ -43,10 +42,7 @@ app.use(logger('tiny'))
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
 app.use('/', indexRouter)
 app.use('/recipes', recipeRouter)
-
 
 app.listen(process.env.PORT || 3001)

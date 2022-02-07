@@ -123,16 +123,14 @@ return (
 
 
         </select>
-      
-    
-      <button type = "submit" className = 'btn btn-primary' onClick={checkLogin}>Search</button>
+      <button type = "submit" className = 'btn btn-primary'>Search</button>
     </form>
 
     <div class = "">
     { isLoggedIn ?(
       <div>
         <h1>Welcome {name}!</h1>
-        <a href='http://localhost:3001/logout' class = "btn btn-danger" onClick={checkLogin}>Logout</a>
+        <a href='http://localhost:3001/logout' class = "btn btn-danger" >Logout</a>
         
       </div>
     ):(
@@ -184,7 +182,7 @@ return (
             recipes = {recipes}
             setRecipes = {setRecipes}
             title = {r.recipe.label} 
-            calories = { r.recipe.calories} 
+            calories = { Math.round(r.recipe.calories)} 
             img = { r.recipe.image} 
             ingredients = { r.recipe.ingredients}
             url = {r.recipe.url}
