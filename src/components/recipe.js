@@ -1,13 +1,24 @@
-import React from 'react'
+import {React,useState,useEffect} from 'react'
 import FlashMessage from 'react-flash-message'
+import Caution from './caution.js'
 
-const Recipe = ({title,calories,ingredients,img})=>{
+const Recipe = ({title,calories,ingredients,img,cautions})=>{
+
+    const [showCautions,setCaution] = useState(false)
+    const displayCaution = ()=>{
+            console.log("hovered over")
+    }
 
 
    
     return(
         
         <div class = "card-body">
+            { cautions.length>0 &&
+                <Caution cautions = {cautions}></Caution>
+
+            }
+         
         
             <h1 class="card-title">{title}</h1>
             <p class ="card-text">Calories: {calories}</p>
@@ -16,8 +27,11 @@ const Recipe = ({title,calories,ingredients,img})=>{
                 {ingredients.map((ingredient)=>(
                     <ul>{ingredient.text}</ul>
                 ))}
+
                 
-            </ol>  
+            </ol>
+            
+              
         </div>
         
     );

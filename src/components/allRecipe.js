@@ -1,7 +1,7 @@
 import {React,useState,useEffect} from 'react'
 import axios from 'axios';
 import Recipe from './recipe';
-const AllRecipe = ({title,calories,ingredients,img,url})=>{
+const AllRecipe = ({title,calories,ingredients,img,url, cautions})=>{
     const [show,setShow] = useState(true)
     const [flash,setFlash] = useState(false)
     const [type, setType] = useState("alert alert-primary" )
@@ -22,7 +22,8 @@ const AllRecipe = ({title,calories,ingredients,img,url})=>{
             calories:calories,
             ingredients: ingredients,
             img: img,
-            url: url
+            url: url,
+            cautions: cautions
         }
         let res
         try{
@@ -64,6 +65,7 @@ const AllRecipe = ({title,calories,ingredients,img,url})=>{
                calories = {calories}
                ingredients = {ingredients}
                img = {img}
+               cautions = {cautions}
             />
            
             <button class = "btn btn-primary" onClick={save}   >Save Recipe</button>

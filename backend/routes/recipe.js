@@ -19,6 +19,8 @@ router.post('/', ensureAuth, async (req,res)=>{
     const ingredients = req.body.ingredients;
     const img = req.body.img
     const url = req.body.url
+    const cautions = req.body.cautions
+
     //const user = req.user.id
 
     const newRecipe = new Recipe({
@@ -27,7 +29,8 @@ router.post('/', ensureAuth, async (req,res)=>{
         ingredients: ingredients,
         img:img,
         url: url,
-        user: req.user
+        user: req.user,
+        cautions: cautions
 
     
     })

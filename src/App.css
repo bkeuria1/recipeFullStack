@@ -1,21 +1,3 @@
-/* .sign-in{
-  width:500px;
-  position: fixed;
-  display: inline;
+.warning{
+  color: red
 }
-.left{
-  display: inline;
-  position: absolute;
-  left: 0;
-}
-
-.right{
-  display: inline;
-  position: absolute;
-  left: 0;
-
-}
-
-.inline{
-  display: inline;
-} */
