@@ -7,14 +7,8 @@ const {ensureAuth}  = require('../middleware/auth')
 require('../passport')(passport)
 
 router.post('/', ensureAuth, async (req,res)=>{
-    //console.log(passport.session)
-   
-    
     console.log("The current user is: "+ req.user)
-
-
     const name = req.body.name
-    
     const calories = req.body.calories;
     const ingredients = req.body.ingredients;
     const img = req.body.img
@@ -38,22 +32,13 @@ router.post('/', ensureAuth, async (req,res)=>{
     try{
        const savedRecipe = await newRecipe.save()
        console.log("THE NEW SAVED RECIPE ID IS: "+ savedRecipe.id)
-    
-       return res.json()
-       
-       
-        
+       return res.json()    
     }catch(err){
         console.log("WE GOT AN ERROR")
         console.log(err)
         res.statusCode = 400
         res.send("ERROR:" + err)
     }
-
-  
-
-   
-
 })
 
 router.get("/",ensureAuth,async (req,res)=>{
@@ -67,29 +52,20 @@ router.get("/",ensureAuth,async (req,res)=>{
     console.log(JSON.stringify(req.query) + "is the req.query")
     console.log(JSON.stringify(searchOptions))
     try{
-        
         let recipes 
         console.log(typeof req.query)
-       
         recipes = await Recipe.find({name:  new RegExp(req.query.name, 'i'), user: req.user})
-
         res.json(recipes)
     }catch(err){
         console.log(err)
         res.statusCode = 400
         res.send()
-        
-
     }
-
 })
-
-
 
 router.delete('/:id', ensureAuth, async(req,res)=>{
     try{
         console.log(req.params.id)
-        
         await Recipe.findByIdAndDelete(req.params.id)
         res.send()
     }catch(err){

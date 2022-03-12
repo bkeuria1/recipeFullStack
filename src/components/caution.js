@@ -1,6 +1,4 @@
 import {React,useState,useEffect} from 'react'
-import FlashMessage from 'react-flash-message'
-
 
 const Caution = ({cautions})=>{
     
@@ -36,9 +34,5 @@ const Caution = ({cautions})=>{
         </div>
 
     )
-
-
-
 }
-
 export default Caution

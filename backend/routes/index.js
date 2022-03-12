@@ -11,7 +11,7 @@ router.get('/failed', ensureAuth,(req, res) => {
   res.send('<h1>Log in Failed :(</h1>')
 });
 
-router.get('/loggedIn', (req,res)=>{
+router.get('/loggedIn', ensureAuth,(req,res)=>{
 res.send({result: req.isAuthenticated(), name: req.user.firstName})
 })
 
@@ -26,30 +26,11 @@ router.get('/auth/google/callback', passport.authenticate('google'
  
     console.log(req.user)
     console.log(req.session)
-    res.redirect("http://localhost:3000");
+    res.redirect("http://localhost:3000/");
   
    
 })
   
-// const checkUserLoggedIn = (req, res, next) => {
-//   req.user ? next(): res.sendStatus(401);
-// }
-// // );
-// router.get('/profile', checkUserLoggedIn, (req, res) => {
-//   res.send(`<h1>${req.user.displayName}'s Profile Page</h1>`)
-// });
-
-// Auth Routes
-
-
-// router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/failed' }),
-//   function(req, res) {
-//     res.redirect('/profile');
-//   }
-// );
-
-
-
 //Logout
 router.get('/logout', ensureAuth, (req, res) => {
   try{

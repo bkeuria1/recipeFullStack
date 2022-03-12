@@ -46,8 +46,7 @@ const AllRecipe = ({title,calories,ingredients,img,url, cautions})=>{
             }else if(status === 400){
                 setMessage("You alreay saved this recipe")
             }
-            
-
+    
             setType("alert alert-danger")
         }
     
@@ -68,7 +67,7 @@ const AllRecipe = ({title,calories,ingredients,img,url, cautions})=>{
                cautions = {cautions}
             />
            
-            <button class = "btn btn-primary" onClick={save}   >Save Recipe</button>
+            <button class = "btn btn-primary" onClick={save}  >Save Recipe</button>
            
             </div>
             }
