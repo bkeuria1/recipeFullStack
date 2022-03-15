@@ -1,10 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const Recipe = require('../models/recipe')
-const passport = require('passport')
+var crypto = require('crypto');
+//const passport = require('../passport.js') 
 
 const {ensureAuth}  = require('../middleware/auth')
-require('../passport')(passport)
+const  mongoose  = require('mongoose')
+
 
 router.post('/', ensureAuth, async (req,res)=>{
     console.log("The current user is: "+ req.user)
@@ -12,7 +14,13 @@ router.post('/', ensureAuth, async (req,res)=>{
     const calories = req.body.calories;
     const ingredients = req.body.ingredients;
     const img = req.body.img
-    const url = req.body.url
+    let url
+    if(req.body.url == null){
+        url =await crypto.randomBytes(20).toString('hex');
+        console.log("HERE IS THE URL" + url)
+    }else{
+        url = req.body.url
+    }
     const cautions = req.body.cautions
 
     //const user = req.user.id
@@ -21,7 +29,7 @@ router.post('/', ensureAuth, async (req,res)=>{
         name : name,
         calories: calories,
         ingredients: ingredients,
-        img:img,
+        img: img,
         url: url,
         user: req.user,
         cautions: cautions
@@ -32,12 +40,13 @@ router.post('/', ensureAuth, async (req,res)=>{
     try{
        const savedRecipe = await newRecipe.save()
        console.log("THE NEW SAVED RECIPE ID IS: "+ savedRecipe.id)
-       return res.json()    
+       res.send()
+       //res.redirect("http://google.com")
     }catch(err){
         console.log("WE GOT AN ERROR")
+        console.log("HERE IS THE URL" + url)
         console.log(err)
-        res.statusCode = 400
-        res.send("ERROR:" + err)
+        res.status(400).send()
     }
 })
 
@@ -58,8 +67,7 @@ router.get("/",ensureAuth,async (req,res)=>{
         res.json(recipes)
     }catch(err){
         console.log(err)
-        res.statusCode = 400
-        res.send()
+        res.status(400).send()
     }
 })
 
@@ -70,8 +78,7 @@ router.delete('/:id', ensureAuth, async(req,res)=>{
         res.send()
     }catch(err){
         console.log(err)
-        res.statusCode = 400
-        res.send()
+        res.status(300).send()
     }
 })
 

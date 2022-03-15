@@ -12,7 +12,7 @@ router.get('/failed', ensureAuth,(req, res) => {
 });
 
 router.get('/loggedIn', ensureAuth,(req,res)=>{
-res.send({result: req.isAuthenticated(), name: req.user.firstName})
+  res.send({result: req.isAuthenticated(), name: req.user.firstName})
 })
 
 
@@ -26,7 +26,7 @@ router.get('/auth/google/callback', passport.authenticate('google'
  
     console.log(req.user)
     console.log(req.session)
-    res.redirect("http://localhost:3000/");
+    res.redirect("http://localhost:3000");
   
    
 })
@@ -38,7 +38,7 @@ router.get('/logout', ensureAuth, (req, res) => {
     console.log(req.session)
     console.log(req.user)
     req.logout();
-    res.redirect('http://localhost:3000')
+    res.redirect('http://google.com')
   }
   catch(err){
     res.redirect('http://localhost:3000')

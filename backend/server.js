@@ -11,15 +11,29 @@ const recipeRouter = require('./routes/recipe')
 const indexRouter = require('./routes/index')
 
 require('./passport')(passport)
+let whitelist = ['http://localhost:3000','http://localhost:3000/new']
 app.use(cors({
-  origin: "http://localhost:3000", // <-- location of the react app were connecting to
-  credentials: true,
+  origin: 'http://localhost:3000',
+  credentials:true,
+  optionSuccessStatus:200
 }))
+// app.use(cors({
+//   credentials: true,
+//    origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   }, // <-- location of the react app were connecting to
+  
+// }))
 
 const mongoose = require('mongoose')
 mongoose.connect(process.env.DATABASE_URL, 
-  { useNewUrlParser: true 
-  ,useUnifiedTopology: true,
+  { useNewUrlParser: true,
+   useUnifiedTopology: true,
+   autoIndex:true
   
   })
 const db = mongoose.connection

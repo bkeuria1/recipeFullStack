@@ -1,5 +1,6 @@
 import {React,useState,useEffect} from 'react'
 import axios from 'axios';
+//const mongoose = require('mongoose')
 const NewRecipeForm = ()=>{
     const [recipe, setRecipe] = useState('')
     const [ingredients,setIngredients] = useState('')
@@ -12,9 +13,9 @@ const NewRecipeForm = ()=>{
             calories:calories,
             ingredients: [ingredients],
             cautions: [restrictions],
-            
         }
-        let res
+        
+        console.log(newRecipe.url)
         try{
             console.log("Saved was clicked")
             const response = await axios.post("http://localhost:3001/recipes/",newRecipe, {withCredentials:true})
